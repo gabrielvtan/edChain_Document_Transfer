@@ -13,7 +13,11 @@ const recordReducer = (state = initialState, action) => {
       data: null,
     });
   }
-
+  if (action.type === 'GET_PERMISSIONED_RECORD') {
+    return Object.assign({}, state, {
+      data: action.payload,
+    });
+  }
   return state;
 };
 
