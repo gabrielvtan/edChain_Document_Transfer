@@ -1,5 +1,6 @@
 import store from '../store';
 import Linnia from '@linniaprotocol/linnia-js';
+import Linnia2 from './../new_modules/linnia-js2';
 
 export const GET_PERMISSIONED_RECORD = 'GET_PERMISSIONED_RECORD';
 
@@ -17,8 +18,8 @@ export const getPermissionedRecord = (dataHash) => async (dispatch) => {
     the record to the state.
   */
 
-  const { linnia } = store.getState().auth;
-  const record = await linnia.getPermissionedRecord(dataHash);
+  const { linnia2 } = store.getState().auth;
+  const record = await linnia2.getPermissionedRecord(dataHash);
   dispatch(assignRecord(record)); 
 };
 

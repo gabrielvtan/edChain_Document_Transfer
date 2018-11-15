@@ -79,8 +79,8 @@ class Header extends Component {
             }}
           />
           <Tab
-            label='Permissioned Records'
-            onClick={this.navigateTo('/get_permissioned_record')}
+            label='Permissions'
+            onClick={this.navigateTo('/permissions')}
             classes={{
               root: `${classes.tab}`,
               labelContainer: classes.tabLabelContainer,
