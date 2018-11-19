@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import GetPermissionedRecordForm from '../components/GetPermissionedRecord';
-import { getPermissionedRecord, getDecryptedRecord } from '../actions/GetPermissionedRecord';
+import { getRecord, getDecryptedPermissionedRecord } from '../actions/GetPermissionedRecord';
 
 const mapStateToProps = (state, ownProps) => {
   return { record: state.record };
@@ -9,10 +9,10 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onGetPermissionedRecordSubmit: (dataHash) => {
-      dispatch(getPermissionedRecord(dataHash));
+      dispatch(getRecord(dataHash));
     },
     onGetPermissionedRecordDecrypt: (record, privateKey) => {
-      dispatch(getDecryptedRecord(record, privateKey));
+      dispatch(getDecryptedPermissionedRecord(record, privateKey));
     },
   };
 };

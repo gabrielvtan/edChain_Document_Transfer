@@ -1,15 +1,14 @@
 import store from '../store';
 import Linnia from '@linniaprotocol/linnia-js';
-import Linnia2 from './../new_modules/linnia-js2';
 
-export const GET_PERMISSIONED_RECORD = 'GET_PERMISSIONED_RECORD';
+export const GET_RECORD = 'GET_RECORD';
 
 const assignRecord = (record) => ({
-  type: GET_PERMISSIONED_RECORD,
+  type: GET_RECORD,
   payload: record,
 });
 
-export const getPermissionedRecord = (dataHash) => async (dispatch) => {
+export const getRecord = (dataHash) => async (dispatch) => {
 
   /*
     Here, we pulled the linnia libray object from the state,
@@ -18,13 +17,13 @@ export const getPermissionedRecord = (dataHash) => async (dispatch) => {
     the record to the state.
   */
 
-  const { linnia2 } = store.getState().auth;
-  const record = await linnia2.getPermissionedRecord(dataHash);
+  const { linnia } = store.getState().auth;
+  const record = await linnia.getRecord(dataHash);
   dispatch(assignRecord(record)); 
 };
 
 // #TODO - this needs to incorporate the privateKey of the PERMISSIONED VIEWER
-export const getDecryptedRecord = (record, privateKey) => async (dispatch) => {
+export const getDecryptedPermissionedRecord = (record, privateKey) => async (dispatch) => {
 
   /*
     We start by pulling the IPFS api wrapper from the state. Then,
@@ -35,6 +34,7 @@ export const getDecryptedRecord = (record, privateKey) => async (dispatch) => {
   */
 
   const { ipfs } = store.getState().auth;
+  const ownerAddress = await store.getState().auth.web3.eth.getAccounts();
 
   if (record.owner === '0x0000000000000000000000000000000000000000') {
     return (alert('Error: owner address is zero. does the file exist?'));
@@ -48,13 +48,16 @@ export const getDecryptedRecord = (record, privateKey) => async (dispatch) => {
       const encrypted = JSON.parse(ipfsRes);
 
       // Try to decrypt with the provided key
+      // FIX ME Linnia.record.decryptPermissioned does not work. 
       try {
-        const decrypted = await Linnia.util.decrypt(privateKey, encrypted);
+        console.log(Linnia.prototype)
+        const decrypted = await Linnia.record.decryptPermissioned(ownerAddress, privateKey, encrypted);
+        console.log(alert({ownerAddress}));
         record.decrypted = JSON.stringify(decrypted);
         dispatch(assignRecord(record));
       } catch (e) {
         console.log(e);
-        return (alert('Error decrypting data. Probably wrong private key'));
+        return (alert('Error DUMMY'));
       }
     }
   });

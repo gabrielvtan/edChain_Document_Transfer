@@ -21,7 +21,7 @@ class GetPermissionedRecordForm extends Component {
     return (
       <div>
         <Typography variant='body1' className={classes.text}>
-          First, we can fetch a record from the smart contracts by inputting its data hash.
+          Let's fetch a record which was permissioned to you from the smart contracts by inputting its data hash.
         </Typography>
         <form onSubmit={handleSubmit}>
           <TextField

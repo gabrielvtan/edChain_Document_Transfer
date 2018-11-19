@@ -14,6 +14,7 @@ import GetUser from './../containers/GetUserContainer';
 import GetRecord from './../containers/GetRecordContainer';
 import Search from './../containers/SearchContainer';
 import Permission from './../containers/PermissionsContainer';
+import GetPermissionedRecord from './../containers/GetPermissionedRecordContainer';
 
 const history = createHistory({
   basename: '',
@@ -63,6 +64,12 @@ class App extends Component {
                 path='/permissions'
                 authError={authError}
                 component={Permission}
+              />
+              <ProtectedRoute
+                isAuthenticated={isAuthenticated}
+                path='/get_permissioned_record'
+                authError={authError}
+                component={GetPermissionedRecord}
               />
               <Route
                 exact
