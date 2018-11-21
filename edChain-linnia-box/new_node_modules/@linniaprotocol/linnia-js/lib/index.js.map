@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/index.js"],"names":["linnia"],"mappings":";;;;;;AAAA;;;;;;kBAEeA,gB","file":"index.js","sourcesContent":["import linnia from './linnia';\n\nexport default linnia;\n"]}

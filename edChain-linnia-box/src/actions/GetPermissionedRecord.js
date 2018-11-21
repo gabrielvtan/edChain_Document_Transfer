@@ -1,5 +1,6 @@
 import store from '../store';
 import Linnia from '@linniaprotocol/linnia-js';
+import Record from '@linniaprotocol/linnia-js/lib/record'
 
 export const GET_RECORD = 'GET_RECORD';
 
@@ -34,7 +35,9 @@ export const getDecryptedPermissionedRecord = (record, privateKey) => async (dis
   */
 
   const { ipfs } = store.getState().auth;
-  const ownerAddress = await store.getState().auth.web3.eth.getAccounts();
+  const [ownerAddress] = await store.getState().auth.web3.eth.getAccounts();
+  const { linnia } = store.getState().auth;
+
 
   if (record.owner === '0x0000000000000000000000000000000000000000') {
     return (alert('Error: owner address is zero. does the file exist?'));
@@ -50,9 +53,10 @@ export const getDecryptedPermissionedRecord = (record, privateKey) => async (dis
       // Try to decrypt with the provided key
       // FIX ME Linnia.record.decryptPermissioned does not work. 
       try {
-        console.log(Linnia.prototype)
+        console.log(Record)
+        console.log(Linnia.util)
+        console.log(Record.decryptPermissioned(ownerAddress, privateKey, encrypted))
         const decrypted = await Linnia.record.decryptPermissioned(ownerAddress, privateKey, encrypted);
-        console.log(alert({ownerAddress}));
         record.decrypted = JSON.stringify(decrypted);
         dispatch(assignRecord(record));
       } catch (e) {
