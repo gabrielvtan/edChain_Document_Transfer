@@ -16,13 +16,13 @@ class Home extends Component {
     return (
       <div>
         <Typography variant='display2' className={classes.text}>
-          Welcome to Linnia!
+          Welcome to edChain Transfer Doc dApp
         </Typography>
         <Typography variant='body1' className={classes.text}>
-          Time to start building the decentralized future.
+          This is where we add the description of the dApp
         </Typography>
         <Typography variant='title' className={classes.text}>
-          Linnia as a decentralized backend
+          This is where we say how we are using Linnia 
         </Typography>
         <Typography variant='body1' className={classes.text}>
           Linnia is a decentralized data storage and sharing protocol. With Linnia, you can quickly build

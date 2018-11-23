@@ -47,7 +47,7 @@ class Header extends Component {
             }}
           />
           <Tab
-            label='Users'
+            label='Create Users'
             onClick={this.navigateTo('/get_user')}
             classes={{
                     root: `${classes.tab}`,
@@ -55,7 +55,15 @@ class Header extends Component {
                 }}
             />
           <Tab
-            label='Records'
+            label='Add Record'
+            onClick={this.navigateTo('/add_record')}
+            classes={{
+                    root: `${classes.tab}`,
+                    labelContainer: classes.tabLabelContainer,
+                }}
+            />
+          <Tab
+            label='Get Record'
             onClick={this.navigateTo('/get_record')}
             classes={{
               root: `${classes.tab}`,
