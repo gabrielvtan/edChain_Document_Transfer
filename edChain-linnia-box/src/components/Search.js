@@ -61,6 +61,9 @@ class Search extends Component {
           You can search for records using a combination of any of the below record
           properties.
         </Typography>
+        <Typography variant='body1' className={classes.text}>
+          THIS DOES NOT WORK FOR DATAHASH AND METADATA
+        </Typography>
         {message && <Typography
           variant='body1'
           className={classes.error}

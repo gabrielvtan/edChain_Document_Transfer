@@ -1,59 +1,83 @@
 import store from '../store';
 import Linnia from '@linniaprotocol/linnia-js';
 
-export const GET_RECORD = 'GET_RECORD';
+export const ADD_RECORD = 'ADD_RECORD';
+
+// TODO: Figure out REDUCER for assignRecord, specifically, METADATA passed
+// TODO: Tie all the functions to the front end and test
+// TODO: Figure out which method takes the MetaData
 
 const assignRecord = (record) => ({
-  type: GET_RECORD,
+  type: ADD_RECORD,
   payload: record,
 });
 
-export const getRecord = (dataHash) => async (dispatch) => {
-
-  /*
-    Here, we pulled the linnia libray object from the state,
-    get the record for the dataHash provided as an argument
-    from the contract state, the dispatch an action that adds
-    the record to the state.
+export const handleEncrypt = (publicKey, content) => async (dispatch) =>{
+  
+  /* 
+    Here, we pulled the linnia library object from the state, 
+    add the record for the publicKey and the content as an argument
+    from the contract state, then dispatch an action that adds the record
+    to IPFS. 
   */
-
-  const { linnia } = store.getState().auth;
-  const record = await linnia.getRecord(dataHash);
-  dispatch(assignRecord(record)); 
+ 
+  try {
+    console.log("connecting to IPFS")
+    dispatch(uploadingToIpfs());
+      encrypted = await Linnia.util.encrypt(
+        publicKey,
+        content,
+      );
+    } catch (e) {
+      dispatch(uploadError("Unable to encrypt file. Check the Public Key"));
+      return
+    }
 };
 
-export const getDecryptedRecord = (record, privateKey) => async (dispatch) => {
-
-  /*
-    We start by pulling the IPFS api wrapper from the state. Then,
-    we use the wrapper to pull the encrypted data at the dataUri down from IPFS.
-    Finally, we attempt to decrypt the data using the provided private key. If
-    it's successful, we add the decrypted data to the state. If not, we display an
-    error.
-  */
-
-  const { ipfs } = store.getState().auth;
-
-  if (record.owner === '0x0000000000000000000000000000000000000000') {
-    return (alert('Error: owner address is zero. does the file exist?'));
+export const uploadingToIpfs = () => async (dispatch) => {
+  try {
+    dataUri = await new Promise((resolve, reject) => {
+      ipfs.add(JSON.stringify(encrypted), (err, ipfsRed) => {
+        err ? reject(err) : resolve(ipfsRed);
+      });
+    });
+  } catch (e) {
+    console.log(e)
+    dispatch(uploadError("Unable to upload file to IPFS"));
+    return;
   }
+};
 
-  // Use ipfs library to pull the encrypted data down from IPFS
-  ipfs.cat(record.dataUri, async (err, ipfsRes) => {
-    if (err) {
-      console.log(err);
-    } else {
-      const encrypted = JSON.parse(ipfsRes);
+export const addRecord = (metadata, dataUri) => async (dispatch) => {
+    const [owner] = await store.getState().auth.web3.eth.getAccounts();
+  
+    content.nonce = crypto.randomBytes(256).toString('hex');
+    // hash of the plain file
+    const hash = linnia.web3.utils.sha3(JSON.stringify(content));
 
-      // Try to decrypt with the provided key
-      try {
-        const decrypted = await Linnia.util.decrypt(privateKey, encrypted);
-        record.decrypted = JSON.stringify(decrypted);
-        dispatch(assignRecord(record));
-      } catch (e) {
-        console.log(e);
-        return (alert('Error decrypting data. Probably wrong private key'));
-      }
+    //Upload file to Linnia
+    try {
+      metadata.dataFormat = "json";
+      metadata.storage = "IPFS";
+      // TODO, get the encryption scheme and the linnia js version from linnia js object
+      // Add those 2 has static variables of the Linnia js class
+      metadata.encryptionScheme = "x25519-xsalsa20-poly1305";
+      metadata.linniajsVersion = "0.3.0";
+      metadata.encryptionPublicKey = publicKey;
+
+      await linnia.addRecord(
+         hash,
+         metadata,
+         dataUri,
+         {
+           from: owner,
+           gas: 500000,
+           gasPrice: 20000000000
+         },
+      );
+    } catch (e) {
+      console.log(e)
+      dispatch(uploadError("Unable to upload file to Linnia"));
+      return;
     }
-  });
 };

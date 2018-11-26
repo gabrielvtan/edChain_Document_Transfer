@@ -13,6 +13,11 @@ const recordReducer = (state = initialState, action) => {
       data: null,
     });
   }
+  if (action.type === 'ADD_RECORD') {
+    return Object.assign({}, state, {
+      data: null,
+    });
+  }
 
   return state;
 };

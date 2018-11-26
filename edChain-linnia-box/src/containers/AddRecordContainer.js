@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
-import AddIPFSAndLinniaForm from '../components/AddRecord';
+import EncryptRecordForm from '../components/AddRecord';
 import { getRecord, getDecryptedRecord } from '../actions/GetRecord';
 
 const mapStateToProps = (state, ownProps) => {
   return { record: state.record };
 };
 
+// TODO: change GetRecordDecrypt to AddPublicKeyAndMeta
 const mapDispatchToProps = (dispatch) => {
   return {
     onAddRecordSubmit: (dataHash) => {
@@ -20,6 +21,6 @@ const mapDispatchToProps = (dispatch) => {
 const AddRecordContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(AddIPFSAndLinniaForm);
+)(EncryptRecordForm);
 
 export default AddRecordContainer;
