@@ -1,5 +1,7 @@
 import store from '../store';
 import Linnia from '@linniaprotocol/linnia-js';
+import config from '../config';
+import request from 'request';
 
 export const GET_RECORD = 'GET_RECORD';
 
@@ -9,17 +11,24 @@ const assignRecord = (record) => ({
 });
 
 export const getRecord = (dataHash) => async (dispatch) => {
-
+  
   /*
     Here, we pulled the linnia libray object from the state,
     get the record for the dataHash provided as an argument
     from the contract state, the dispatch an action that adds
     the record to the state.
   */
-
+  let req = config.LINNIA_SEARCH_URI + "/records";
+  
   const { linnia } = store.getState().auth;
   const record = await linnia.getRecord(dataHash);
-  dispatch(assignRecord(record)); 
+  
+  //TODO: UPDATE THIS WITH THE SEARCH FUNCTIONALITY. FIGURE OUT HOW TO PARSE METADATA
+  let x = record.dataHash;
+  req = request(req + '/' + x);
+  console.log(req);
+
+  dispatch(assignRecord(record));
 };
 
 export const getDecryptedRecord = (record, privateKey) => async (dispatch) => {

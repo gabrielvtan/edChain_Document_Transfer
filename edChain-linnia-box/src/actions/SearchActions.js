@@ -33,7 +33,6 @@ export const search = (dataHash, owner, property) => async (dispatch) => {
     if (error) {
       console.error(error.stack);
     }
-
     const parsedBody = JSON.parse(body);
 
     dispatch(assignSearch(parsedBody));

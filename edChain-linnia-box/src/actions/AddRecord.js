@@ -2,6 +2,7 @@ import store from '../store';
 import Linnia from '@linniaprotocol/linnia-js';
 
 export const ADD_RECORD = 'ADD_RECORD';
+export const RECORD_ERROR = 'RECORD_ERROR'
 
 // TODO: Figure out REDUCER for assignRecord, specifically, METADATA passed
 // TODO: Tie all the functions to the front end and test
@@ -11,6 +12,7 @@ const assignRecord = (record) => ({
   type: ADD_RECORD,
   payload: record,
 });
+
 
 export const handleEncrypt = (publicKey, content) => async (dispatch) =>{
   
@@ -29,26 +31,24 @@ export const handleEncrypt = (publicKey, content) => async (dispatch) =>{
         content,
       );
     } catch (e) {
-      dispatch(uploadError("Unable to encrypt file. Check the Public Key"));
-      return
+      return(alert("Unable to encrypt file. Check the Public Key"));
     }
-};
+  };
 
 export const uploadingToIpfs = () => async (dispatch) => {
   try {
     dataUri = await new Promise((resolve, reject) => {
       ipfs.add(JSON.stringify(encrypted), (err, ipfsRed) => {
         err ? reject(err) : resolve(ipfsRed);
+        });
       });
-    });
-  } catch (e) {
-    console.log(e)
-    dispatch(uploadError("Unable to upload file to IPFS"));
-    return;
-  }
-};
+    } catch (e) {
+      console.log(e)
+      return(alert("Unable to upload file to IPFS"));
+    }
+  };
 
-export const addRecord = (metadata, dataUri) => async (dispatch) => {
+export const addRecord = (ownerProps, content) => async (dispatch) => {
     const [owner] = await store.getState().auth.web3.eth.getAccounts();
   
     content.nonce = crypto.randomBytes(256).toString('hex');
@@ -75,9 +75,9 @@ export const addRecord = (metadata, dataUri) => async (dispatch) => {
            gasPrice: 20000000000
          },
       );
+      dispatch(assignRecord(record));
     } catch (e) {
       console.log(e)
-      dispatch(uploadError("Unable to upload file to Linnia"));
-      return;
+      return(alert("Unable to upload file to Linnia"));
     }
 };

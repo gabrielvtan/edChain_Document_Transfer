@@ -56,7 +56,7 @@ class EncryptRecordForm extends Component {
         <TextField
             id='firstName'
             label='First Name'
-            required
+            //required
             className={classes.space}
             value={firstName.replace(/\s/g, '')}
             onChange={onInputChange('firstName')}
@@ -65,7 +65,7 @@ class EncryptRecordForm extends Component {
           <TextField
             id='lastName'
             label='Last Name'
-            required
+            //required
             className={classes.space}
             value={lastName.replace(/\s/g, '')}
             onChange={onInputChange('lastName')}
@@ -76,7 +76,7 @@ class EncryptRecordForm extends Component {
         <TextField
             id='course'
             label='Course'
-            required
+            //required
             className={classes.space}
             value={course.replace(/\s/g, '')}
             onChange={onInputChange('course')}
@@ -85,7 +85,7 @@ class EncryptRecordForm extends Component {
           <TextField
             id='loan'
             label='Loan Amount'
-            required
+            //required
             className={classes.space}
             value={loan.replace(/\s/g, '')}
             onChange={onInputChange('loan')}
@@ -106,10 +106,10 @@ class EncryptRecordForm extends Component {
 
 EncryptRecordForm.propTypes = {
   publicKey: PropTypes.string.isRequired,
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  course: PropTypes.string.isRequired,
-  loan: PropTypes.string.isRequired,
+//   firstName: PropTypes.string.isRequired,
+//   lastName: PropTypes.string.isRequired,
+//   course: PropTypes.string.isRequired,
+//   loan: PropTypes.string.isRequired,
   onInputChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };
