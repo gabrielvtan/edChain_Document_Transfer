@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
+import Input from '@material-ui/core/Input';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -27,7 +28,7 @@ const styles = (theme) => ({
 // TODO: Convert variables to the relevant ones
 class EncryptRecordForm extends Component {
   render() {
-    const { publicKey, course, loan, onInputChange, handleSubmit, classes } = this.props;
+    const { publicKey, course, loan, onInputChange, handleSubmit, classes, content } = this.props;
 
     return (
       <div>
@@ -59,13 +60,12 @@ class EncryptRecordForm extends Component {
             //required
             className={classes.space}
             defaultValue = 'Course'
-            onChange={onInputChange('metadataCourse')}
             margin='normal'
           />
           <TextField
             id='course'
             label='Course Name*'
-            //required
+            required
             className={classes.space}
             value={course.replace(/\s/g, '')}
             onChange={onInputChange('course')}
@@ -79,24 +79,33 @@ class EncryptRecordForm extends Component {
             //required
             className={classes.space}
             defaultValue = 'Loan Request'
-            onChange={onInputChange('metadataLoan')}
             margin='normal'
           />
           <TextField
             id='loan'
             label='Loan Amount*'
-            //required
+            required
             className={classes.space}
             value={loan.replace(/\s/g, '')}
             onChange={onInputChange('loan')}
             margin='normal'
           />
         </form>
+        <Typography variant='body1' className={classes.text}>
+          Choose a file to send to IPFS and Append to the Linnia Protocol
+        </Typography>
+        <Input
+            id = 'content'
+            required
+            type = "file"
+            onChange = {this.captureFile}
+            margin='normal'
+        />
         <p></p>
         <Button
             type='submit'
           >
-            Add Key
+            Upload to IPFS and Append to Linnia Protocol
         </Button>
         </form>
       </div>
@@ -108,8 +117,8 @@ EncryptRecordForm.propTypes = {
   publicKey: PropTypes.string.isRequired,
 //   firstName: PropTypes.string.isRequired,
 //   lastName: PropTypes.string.isRequired,
-//   course: PropTypes.string.isRequired,
-//   loan: PropTypes.string.isRequired,
+  course: PropTypes.string.isRequired,
+  loan: PropTypes.string.isRequired,
   onInputChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Record from './Record';
 import EncryptRecordForm from './EncryptRecordForm';
-import AddIPFSAndLinniaForm from './AddIPFSAndLinniaForm';
 import { withStyles } from '@material-ui/core/styles';
 
 
@@ -42,8 +41,14 @@ class AddRecord extends Component {
   // TODO: handleSubmit should handle for adding the public key and the metadata to a file
   handleSubmit = (event) => {
     event.preventDefault();
-    const dataHash = event.target.elements.dataHash.value;
-    this.props.onAddRecordSubmit(dataHash);
+
+    this.props.onAddRecordSubmit(
+        this.state.publicKey, 
+        this.state.course, 
+        this.state.loan, 
+        this.state.content,
+        this.state.buffer
+    );
   };
 
   // TODO change to handleEncrypt and grab metadata from handleSubmit
@@ -72,7 +77,7 @@ class AddRecord extends Component {
     };
 
   render () {
-    const { publicKey, metadataCourse, metadataLoan, course, loan } = this.state;
+    const { publicKey, metadataCourse, metadataLoan, course, loan, content, buffer } = this.state;
     const { record, classes } = this.props;
 
     return (
@@ -84,24 +89,15 @@ class AddRecord extends Component {
           publicKey={publicKey}
           metadataCourse={metadataCourse}
           metadataLoan={metadataLoan}
+          buffer={buffer}
           course={course}
           loan={loan}
+          content={content}
           onInputChange={this.onInputChange}
           handleSubmit={this.handleSubmit}
+          captureFile={this.captureFile}
         />
-        <AddIPFSAndLinniaForm
-          publicKey={publicKey}
-          onInputChange={this.onInputChange}
-          handleDecrypt={this.handleDecrypt}
-        />
-        {record.data && record.data.decrypted && <div>
-          <Typography variant='title' className={classes.text}>
-            Success! Here is our decrypted data
-          </Typography>
-          <Typography variant='body2' className={classes.text}>
-            {this.props.record.data.decrypted}
-          </Typography>
-        </div>}
+
       </section>
     );
   }

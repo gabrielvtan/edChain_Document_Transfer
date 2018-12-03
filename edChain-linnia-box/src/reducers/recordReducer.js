@@ -20,6 +20,9 @@ const recordReducer = (state = initialState, action) => {
   } else if (action.type === 'RECORD_ERROR') {
       const { message, isLoading } = action;
       return Object.assign({}, state, {message, isLoading});
+  } else if (action.type === 'UPLOADING_IPFS'){
+      const isLoading = true;
+      return Object.assign({}, state, { isLoading }); 
   }
 
   return state;

@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import EncryptRecordForm from '../components/AddRecord';
-import { getRecord, getDecryptedRecord } from '../actions/GetRecord';
+import { addRecord } from '../actions/AddRecord';
+import { ContentClear } from 'material-ui/svg-icons';
 
 const mapStateToProps = (state, ownProps) => {
   return { record: state.record };
@@ -9,11 +10,8 @@ const mapStateToProps = (state, ownProps) => {
 // TODO: change GetRecordDecrypt to AddPublicKeyAndMeta
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAddRecordSubmit: (dataHash) => {
-      dispatch(getRecord(dataHash));
-    },
-    onGetRecordDecrypt: (record, privateKey) => {
-      dispatch(getDecryptedRecord(record, privateKey));
+    onAddRecordSubmit: (publicKey, course, loan, content) => {
+      dispatch(addRecord(publicKey, course, loan, content));
     },
   };
 };

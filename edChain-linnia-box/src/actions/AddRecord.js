@@ -3,6 +3,7 @@ import Linnia from '@linniaprotocol/linnia-js';
 
 export const ADD_RECORD = 'ADD_RECORD';
 export const RECORD_ERROR = 'RECORD_ERROR';
+export const UPLOADING_IPFS = 'UPLOADING_IPFS';
 
 // TODO: Figure out REDUCER for assignRecord, specifically, METADATA passed
 // TODO: Tie all the functions to the front end and test
@@ -19,16 +20,23 @@ const uploadError = (message) => ({
     message,
 });
 
+const uploadingToIpfs = () => ({
+    type: UPLOADING_IPFS,
+    isLoading: true,
+});
 
-export const handleEncrypt = (publicKey, content) => async (dispatch) =>{
-  
+
+export const addRecord = (publicKey, course, loan, content, buffer) => async (dispatch) =>{
+  let encrypted, dataUri, metadata, record;
   /* 
     Here, we pulled the linnia library object from the state, 
     add the record for the publicKey and the content as an argument
     from the contract state, then dispatch an action that adds the record
     to IPFS. 
   */
- 
+  // Encrypt
+  const linnia = store.getState().auth.linnia;
+  const ipfs = store.getState().auth.ipfs;
   try {
     console.log("connecting to IPFS")
     dispatch(uploadingToIpfs());
@@ -41,9 +49,8 @@ export const handleEncrypt = (publicKey, content) => async (dispatch) =>{
       dispatch(uploadError("Unable to encrypt file. Check the Public Key"));
       return;
     }
-  };
-
-export const uploadingToIpfs = () => async (dispatch) => {
+  
+  // Upload to IPFS
   try {
     dataUri = await new Promise((resolve, reject) => {
       ipfs.add(JSON.stringify(encrypted), (err, ipfsRed) => {
@@ -55,9 +62,8 @@ export const uploadingToIpfs = () => async (dispatch) => {
       dispatch(uploadError("Unable to upload file to IPFS"));
       return;
     }
-  };
 
-export const addRecord = (ownerProps, content) => async (dispatch) => {
+
     const [owner] = await store.getState().auth.web3.eth.getAccounts();
   
     content.nonce = crypto.randomBytes(256).toString('hex');
@@ -73,8 +79,10 @@ export const addRecord = (ownerProps, content) => async (dispatch) => {
       metadata.encryptionScheme = "x25519-xsalsa20-poly1305";
       metadata.linniajsVersion = "0.3.0";
       metadata.encryptionPublicKey = publicKey;
+      metadata.course = course;
+      metadata.loan = loan;
 
-      await linnia.addRecord(
+      record = await linnia.addRecord(
          hash,
          metadata,
          dataUri,
