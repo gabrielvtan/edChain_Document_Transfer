@@ -18,8 +18,6 @@ class AddRecord extends Component {
 
     this.state = {
       publicKey: '',
-      firstName: '',
-      lastName: '',
       course: '',
       loan: '',
       file: '',
@@ -74,7 +72,7 @@ class AddRecord extends Component {
     };
 
   render () {
-    const { publicKey, firstName, lastName, course, loan } = this.state;
+    const { publicKey, metadataCourse, metadataLoan, course, loan } = this.state;
     const { record, classes } = this.props;
 
     return (
@@ -84,8 +82,8 @@ class AddRecord extends Component {
         </Typography>
         <EncryptRecordForm
           publicKey={publicKey}
-          firstName={firstName}
-          lastName={lastName}
+          metadataCourse={metadataCourse}
+          metadataLoan={metadataLoan}
           course={course}
           loan={loan}
           onInputChange={this.onInputChange}

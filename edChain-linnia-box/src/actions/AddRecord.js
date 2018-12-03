@@ -2,7 +2,7 @@ import store from '../store';
 import Linnia from '@linniaprotocol/linnia-js';
 
 export const ADD_RECORD = 'ADD_RECORD';
-export const RECORD_ERROR = 'RECORD_ERROR'
+export const RECORD_ERROR = 'RECORD_ERROR';
 
 // TODO: Figure out REDUCER for assignRecord, specifically, METADATA passed
 // TODO: Tie all the functions to the front end and test
@@ -11,6 +11,12 @@ export const RECORD_ERROR = 'RECORD_ERROR'
 const assignRecord = (record) => ({
   type: ADD_RECORD,
   payload: record,
+});
+
+const uploadError = (message) => ({
+    type: RECORD_ERROR,
+    isLoading: false,
+    message,
 });
 
 
@@ -31,7 +37,9 @@ export const handleEncrypt = (publicKey, content) => async (dispatch) =>{
         content,
       );
     } catch (e) {
-      return(alert("Unable to encrypt file. Check the Public Key"));
+      console.log(e)
+      dispatch(uploadError("Unable to encrypt file. Check the Public Key"));
+      return;
     }
   };
 
@@ -44,7 +52,8 @@ export const uploadingToIpfs = () => async (dispatch) => {
       });
     } catch (e) {
       console.log(e)
-      return(alert("Unable to upload file to IPFS"));
+      dispatch(uploadError("Unable to upload file to IPFS"));
+      return;
     }
   };
 
@@ -78,6 +87,7 @@ export const addRecord = (ownerProps, content) => async (dispatch) => {
       dispatch(assignRecord(record));
     } catch (e) {
       console.log(e)
-      return(alert("Unable to upload file to Linnia"));
+      dispatch(uploadError("Unable to upload file to Linnia"));
+      return;
     }
 };

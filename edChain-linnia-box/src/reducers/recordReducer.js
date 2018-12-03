@@ -17,6 +17,9 @@ const recordReducer = (state = initialState, action) => {
     return Object.assign({}, state, {
       data: null,
     });
+  } else if (action.type === 'RECORD_ERROR') {
+      const { message, isLoading } = action;
+      return Object.assign({}, state, {message, isLoading});
   }
 
   return state;

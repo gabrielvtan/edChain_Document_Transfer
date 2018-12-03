@@ -27,7 +27,7 @@ const styles = (theme) => ({
 // TODO: Convert variables to the relevant ones
 class EncryptRecordForm extends Component {
   render() {
-    const { publicKey, firstName, lastName, course, loan, onInputChange, handleSubmit, classes } = this.props;
+    const { publicKey, course, loan, onInputChange, handleSubmit, classes } = this.props;
 
     return (
       <div>
@@ -54,37 +54,37 @@ class EncryptRecordForm extends Component {
           </Typography>
         <form>
         <TextField
-            id='firstName'
-            label='First Name'
+            id='metadataCourse'
+            label='key*'
             //required
             className={classes.space}
-            value={firstName.replace(/\s/g, '')}
-            onChange={onInputChange('firstName')}
+            defaultValue = 'Course'
+            onChange={onInputChange('metadataCourse')}
             margin='normal'
           />
           <TextField
-            id='lastName'
-            label='Last Name'
-            //required
-            className={classes.space}
-            value={lastName.replace(/\s/g, '')}
-            onChange={onInputChange('lastName')}
-            margin='normal'
-          />
-        </form>
-        <form>
-        <TextField
             id='course'
-            label='Course'
+            label='Course Name*'
             //required
             className={classes.space}
             value={course.replace(/\s/g, '')}
             onChange={onInputChange('course')}
             margin='normal'
           />
+        </form>
+        <form>
+        <TextField
+            id='metadataLoan'
+            label='key*'
+            //required
+            className={classes.space}
+            defaultValue = 'Loan Request'
+            onChange={onInputChange('metadataLoan')}
+            margin='normal'
+          />
           <TextField
             id='loan'
-            label='Loan Amount'
+            label='Loan Amount*'
             //required
             className={classes.space}
             value={loan.replace(/\s/g, '')}
