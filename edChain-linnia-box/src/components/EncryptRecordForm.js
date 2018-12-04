@@ -39,7 +39,7 @@ class EncryptRecordForm extends Component {
         This should be the <span className={classes.important}>public key</span> you generated in the previous step. This key will encrypt our file so only our private encryption key can decrypt it!
         </Typography>
         
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} method="post">
           <TextField
             id='publicKey'
             label='Public Key'
@@ -53,7 +53,7 @@ class EncryptRecordForm extends Component {
           <Typography variant='body1' className={classes.text}>
           <span className={classes.important}>Metadata</span> should be what people will use to find your data. What will be useful for you to query later?        
           </Typography>
-        <form>
+        <div>
         <TextField
             id='metadataCourse'
             label='key*'
@@ -71,8 +71,8 @@ class EncryptRecordForm extends Component {
             onChange={onInputChange('course')}
             margin='normal'
           />
-        </form>
-        <form>
+        </div>
+        <div>
         <TextField
             id='metadataLoan'
             label='key*'
@@ -90,7 +90,7 @@ class EncryptRecordForm extends Component {
             onChange={onInputChange('loan')}
             margin='normal'
           />
-        </form>
+        </div>
         <Typography variant='body1' className={classes.text}>
           Choose a file to send to IPFS and Append to the Linnia Protocol
         </Typography>
@@ -119,6 +119,7 @@ EncryptRecordForm.propTypes = {
 //   lastName: PropTypes.string.isRequired,
   course: PropTypes.string.isRequired,
   loan: PropTypes.string.isRequired,
+  content: PropTypes.func.isRequired,
   onInputChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };

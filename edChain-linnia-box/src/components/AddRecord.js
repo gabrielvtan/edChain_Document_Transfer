@@ -19,8 +19,7 @@ class AddRecord extends Component {
       publicKey: '',
       course: '',
       loan: '',
-      file: '',
-      buffer:'',
+      content: '',
     };
 
     // Set variables pass as url arguments
@@ -46,17 +45,10 @@ class AddRecord extends Component {
         this.state.publicKey, 
         this.state.course, 
         this.state.loan, 
-        this.state.content,
-        this.state.buffer
+        this.state.content
     );
   };
 
-  // TODO change to handleEncrypt and grab metadata from handleSubmit
-  handleDecrypt = (event) => {
-    event.preventDefault();
-    const privateKey = event.target.elements.privateKey.value;
-    this.props.onGetRecordDecrypt(this.props.record.data, privateKey);
-  };
 
   //Take file input from user
   captureFile =(event) => {
@@ -68,16 +60,16 @@ class AddRecord extends Component {
     reader.onloadend = () => this.convertToBuffer(reader)
     };
 
-    //Convert the file to buffer to store on IPFS
-    convertToBuffer = async(reader) => {
-    //file is converted to a buffer for upload to IPFS
+  //Convert the file to buffer to store on IPFS
+  convertToBuffer = async(reader) => {
+  //file is converted to a buffer for upload to IPFS
     const buffer = await Buffer.from(reader.result);
-    //set this buffer-using es6 syntax
+  //set this buffer-using es6 syntax
     this.setState({buffer});
     };
 
   render () {
-    const { publicKey, metadataCourse, metadataLoan, course, loan, content, buffer } = this.state;
+    const { publicKey, metadataCourse, metadataLoan, course, loan, buffer, content } = this.state;
     const { record, classes } = this.props;
 
     return (
@@ -89,10 +81,9 @@ class AddRecord extends Component {
           publicKey={publicKey}
           metadataCourse={metadataCourse}
           metadataLoan={metadataLoan}
-          buffer={buffer}
+          content={content}
           course={course}
           loan={loan}
-          content={content}
           onInputChange={this.onInputChange}
           handleSubmit={this.handleSubmit}
           captureFile={this.captureFile}

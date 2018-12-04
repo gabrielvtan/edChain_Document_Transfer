@@ -26,8 +26,40 @@ const uploadingToIpfs = () => ({
 });
 
 
-export const addRecord = (publicKey, course, loan, content, buffer) => async (dispatch) =>{
-  let encrypted, dataUri, metadata, record;
+export const addRecord = (publicKey, course, loan) => async (dispatch) =>{
+  let encrypted, dataUri, metadata, record, buffer;
+
+  let content = {
+    "categories": [
+        {
+            "name": "Index Crime", 
+            "sub_categories": [
+                {
+                    "code": "01A", 
+                    "description": "Homicide 1st & 2nd Degree"
+                }
+            ]
+        }, 
+        {
+            "name": "Non-Index Crime", 
+            "sub_categories": [
+                {
+                    "code": "01B", 
+                    "description": "Involuntary Manslaughter"
+                }
+            ]
+        }, 
+        {
+            "name": "Violent Crime", 
+            "sub_categories": [
+                {
+                    "code": "01A", 
+                    "description": "Homicide 1st & 2nd Degree"
+                }
+            ]
+        }
+    ]
+};
   /* 
     Here, we pulled the linnia library object from the state, 
     add the record for the publicKey and the content as an argument
@@ -39,6 +71,9 @@ export const addRecord = (publicKey, course, loan, content, buffer) => async (di
   const ipfs = store.getState().auth.ipfs;
   try {
     console.log("connecting to IPFS")
+
+    console.log(content)
+    console.log(typeof(content))
     dispatch(uploadingToIpfs());
       encrypted = await Linnia.util.encrypt(
         publicKey,
