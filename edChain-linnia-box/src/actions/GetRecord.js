@@ -25,6 +25,8 @@ export const getRecord = (dataHash) => async (dispatch) => {
   
   //TODO: UPDATE THIS WITH THE SEARCH FUNCTIONALITY. FIGURE OUT HOW TO PARSE METADATA
   let x = record.dataHash;
+  record.metadataHash = "FIX ME"
+  console.log(x)
   req = request(req + '/' + x);
   console.log(req);
 
