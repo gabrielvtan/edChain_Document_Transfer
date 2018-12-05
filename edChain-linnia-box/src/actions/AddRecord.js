@@ -113,6 +113,8 @@ export const addRecord = (publicKey, course, loan) => async (dispatch) =>{
 
     //Upload file to Linnia
     try {
+      metadata.course = course;
+      metadata.loan = loan;
       metadata.dataFormat = "json";
       metadata.storage = "IPFS";
       // TODO, get the encryption scheme and the linnia js version from linnia js object
@@ -120,8 +122,7 @@ export const addRecord = (publicKey, course, loan) => async (dispatch) =>{
       metadata.encryptionScheme = "x25519-xsalsa20-poly1305";
       metadata.linniajsVersion = "0.3.0";
       metadata.encryptionPublicKey = publicKey;
-      metadata.course = course;
-      metadata.loan = loan;
+
       console.log(metadata)
       
 

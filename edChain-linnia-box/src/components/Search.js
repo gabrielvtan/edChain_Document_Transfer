@@ -62,7 +62,7 @@ class Search extends Component {
           properties.
         </Typography>
         <Typography variant='body1' className={classes.text}>
-          THIS DOES NOT WORK FOR DATAHASH AND METADATA
+          THIS DOES NOT WORK FOR DATAHASH
         </Typography>
         {message && <Typography
           variant='body1'

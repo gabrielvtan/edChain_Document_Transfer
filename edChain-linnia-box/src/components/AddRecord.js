@@ -88,7 +88,6 @@ class AddRecord extends Component {
           handleSubmit={this.handleSubmit}
           captureFile={this.captureFile}
         />
-
       </section>
     );
   }
