@@ -124,10 +124,6 @@ export const addRecord = (publicKey, course, loan) => async (dispatch) =>{
       metadata.encryptionPublicKey = publicKey;
 
       console.log(metadata)
-      
-
-
-      
 
       record = await linnia.addRecord(
          hash,

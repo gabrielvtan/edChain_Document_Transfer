@@ -67,7 +67,7 @@ class AddRecord extends Component {
   //set this buffer-using es6 syntax
     this.setState({buffer});
     };
-
+  // TODO: UPDATE TO INCLUDE A MESSAGE GIVING THE HASH OF THE TRANSACTION
   render () {
     const { publicKey, metadataCourse, metadataLoan, course, loan, buffer, content } = this.state;
     const { record, classes } = this.props;
