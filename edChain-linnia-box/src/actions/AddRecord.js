@@ -27,7 +27,8 @@ const uploadingToIpfs = () => ({
 
 
 export const addRecord = (publicKey, course, loan) => async (dispatch) =>{
-  let encrypted, dataUri, metadata, record, buffer;
+  let encrypted, dataUri, record;
+  let metadata = {};
 
   let content = {
     "categories": [
@@ -71,9 +72,6 @@ export const addRecord = (publicKey, course, loan) => async (dispatch) =>{
   const ipfs = store.getState().auth.ipfs;
   try {
     console.log("connecting to IPFS")
-
-    console.log(content)
-    console.log(typeof(content))
     dispatch(uploadingToIpfs());
       encrypted = await Linnia.util.encrypt(
         publicKey,
@@ -100,10 +98,18 @@ export const addRecord = (publicKey, course, loan) => async (dispatch) =>{
 
 
     const [owner] = await store.getState().auth.web3.eth.getAccounts();
+
+    let crypto;
+    try {
+        crypto = require('crypto');
+    } catch (err) {
+        console.log('crypto support is disabled!');
+    }
   
     content.nonce = crypto.randomBytes(256).toString('hex');
     // hash of the plain file
     const hash = linnia.web3.utils.sha3(JSON.stringify(content));
+
 
     //Upload file to Linnia
     try {
@@ -116,6 +122,11 @@ export const addRecord = (publicKey, course, loan) => async (dispatch) =>{
       metadata.encryptionPublicKey = publicKey;
       metadata.course = course;
       metadata.loan = loan;
+      console.log(metadata)
+      
+
+
+      
 
       record = await linnia.addRecord(
          hash,
@@ -127,7 +138,6 @@ export const addRecord = (publicKey, course, loan) => async (dispatch) =>{
            gasPrice: 20000000000
          },
       );
-      dispatch(assignRecord(record));
     } catch (e) {
       console.log(e)
       dispatch(uploadError("Unable to upload file to Linnia"));
