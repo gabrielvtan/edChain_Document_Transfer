@@ -19,7 +19,7 @@ class AddRecord extends Component {
       publicKey: '',
       course: '',
       loan: '',
-      content: '',
+      buffer: '',
     };
 
     // Set variables pass as url arguments
@@ -37,7 +37,7 @@ class AddRecord extends Component {
     this.setState({ [property]: value });
   };
 
-  // TODO: handleSubmit should handle for adding the public key and the metadata to a file
+
   handleSubmit = (event) => {
     event.preventDefault();
 
@@ -45,7 +45,7 @@ class AddRecord extends Component {
         this.state.publicKey, 
         this.state.course, 
         this.state.loan, 
-        this.state.content
+        this.state.buffer
     );
   };
 
@@ -55,21 +55,26 @@ class AddRecord extends Component {
     event.stopPropagation()
     event.preventDefault()
     const file = event.target.files[0]
+    console.log(typeof file)
     let reader = new window.FileReader()
     reader.readAsArrayBuffer(file)
     reader.onloadend = () => this.convertToBuffer(reader)
+    console.log(typeof reader)
     };
 
   //Convert the file to buffer to store on IPFS
   convertToBuffer = async(reader) => {
   //file is converted to a buffer for upload to IPFS
-    const buffer = await Buffer.from(reader.result);
+    let buffer = await Buffer.from(reader.result);
+    buffer = JSON.parse(buffer)
+    console.log(buffer)
   //set this buffer-using es6 syntax
     this.setState({buffer});
     };
+
   // TODO: UPDATE TO INCLUDE A MESSAGE GIVING THE HASH OF THE TRANSACTION
   render () {
-    const { publicKey, metadataCourse, metadataLoan, course, loan, buffer, content } = this.state;
+    const { publicKey, metadataCourse, metadataLoan, course, loan, content } = this.state;
     const { record, classes } = this.props;
 
     return (

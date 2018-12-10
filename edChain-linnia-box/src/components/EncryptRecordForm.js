@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import { ContentTextFormat } from 'material-ui/svg-icons';
 
 const styles = (theme) => ({
   space: {
@@ -28,7 +29,7 @@ const styles = (theme) => ({
 // TODO: Convert variables to the relevant ones
 class EncryptRecordForm extends Component {
   render() {
-    const { publicKey, course, loan, onInputChange, handleSubmit, classes, content } = this.props;
+    const { publicKey, course, loan, onInputChange, handleSubmit, classes, captureFile } = this.props;
 
     return (
       <div>
@@ -95,16 +96,14 @@ class EncryptRecordForm extends Component {
           Choose a file to send to IPFS and Append to the Linnia Protocol
         </Typography>
         <Input
-            id = 'content'
+            id='content'
             required
             type = "file"
-            onChange = {this.captureFile}
+            onChange = {captureFile}
             margin='normal'
         />
         <p></p>
-        <Button
-            type='submit'
-          >
+        <Button type='submit'>
             Upload to IPFS and Append to Linnia Protocol
         </Button>
         </form>

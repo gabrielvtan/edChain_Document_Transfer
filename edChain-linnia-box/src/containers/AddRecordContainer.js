@@ -10,8 +10,8 @@ const mapStateToProps = (state, ownProps) => {
 // TODO: change GetRecordDecrypt to AddPublicKeyAndMeta
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAddRecordSubmit: (publicKey, course, loan, content, buffer) => {
-      dispatch(addRecord(publicKey, course, loan, content, buffer));
+    onAddRecordSubmit: (publicKey, course, loan, buffer) => {
+      dispatch(addRecord(publicKey, course, loan, buffer));
     },
   };
 };
