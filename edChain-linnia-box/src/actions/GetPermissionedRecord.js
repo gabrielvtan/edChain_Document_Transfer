@@ -52,11 +52,7 @@ export const getDecryptedPermissionedRecord = (record, privateKey) => async (dis
       // Try to decrypt with the provided key
       // FIX ME Linnia.record.decryptPermissioned does not work. 
       try {
-        console.log(Record)
-        console.log(Record.decryptPermissioned)
-        console.log(Linnia.util)
-        
-        const decrypted = await Linnia.record.decryptPermissioned(ownerAddress, privateKey, encrypted);
+        const decrypted = await record.decryptPermissioned(ownerAddress, privateKey, encrypted);
         record.decrypted = JSON.stringify(decrypted);
         dispatch(assignRecord(record));
       } catch (e) {
