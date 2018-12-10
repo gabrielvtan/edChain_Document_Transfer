@@ -1,6 +1,6 @@
 import store from '../store';
 import Linnia from '@linniaprotocol/linnia-js';
-import Record from '@linniaprotocol/linnia-js/lib/record'
+import Record from '@linniaprotocol/linnia-js/src/record';
 
 export const GET_RECORD = 'GET_RECORD';
 
@@ -53,10 +53,7 @@ export const getDecryptedPermissionedRecord = (record, privateKey) => async (dis
       // Try to decrypt with the provided key
       // FIX ME Linnia.record.decryptPermissioned does not work. 
       try {
-        console.log(Record)
-        console.log(Linnia.util)
-        console.log(Record.decryptPermissioned(ownerAddress, privateKey, encrypted))
-        const decrypted = await Linnia.record.decryptPermissioned(ownerAddress, privateKey, encrypted);
+        const decrypted = await record.decryptPermissioned(ownerAddress, privateKey, encrypted);
         record.decrypted = JSON.stringify(decrypted);
         dispatch(assignRecord(record));
       } catch (e) {
