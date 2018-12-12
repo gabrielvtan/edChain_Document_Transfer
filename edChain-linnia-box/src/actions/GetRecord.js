@@ -55,11 +55,14 @@ export const getDecryptedRecord = (record, privateKey) => async (dispatch) => {
       console.log(err);
     } else {
       const encrypted = JSON.parse(ipfsRes);
+      console.log(encrypted)
 
       // Try to decrypt with the provided key
       try {
         const decrypted = await Linnia.util.decrypt(privateKey, encrypted);
+        console.log(decrypted)
         record.decrypted = JSON.stringify(decrypted);
+        console.log(record.decrypted)
         dispatch(assignRecord(record));
       } catch (e) {
         console.log(e);

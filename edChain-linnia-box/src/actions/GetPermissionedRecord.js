@@ -48,11 +48,20 @@ export const getDecryptedPermissionedRecord = (record, privateKey) => async (dis
       console.log(err);
     } else {
       const encrypted = JSON.parse(ipfsRes);
+      const perm = await record.getPermission(ownerAddress);
+      if (!perm.canAccess) {
+          throw new Error('You do not have permission to view the data')
+      }
+      const ciphertext = encrypted.ciphertext;
+      console.log(encrypted)
+      console.log(perm)
+      console.log(ciphertext)
 
-      // Try to decrypt with the provided key
+      // Try to decraypt with the provided key
       // FIX ME Linnia.record.decryptPermissioned does not work. 
       try {
-        const decrypted = await record.decryptPermissioned(ownerAddress, privateKey, encrypted);
+        const decrypted = await Linnia.util.decrypt(privateKey, encrypted);
+        console.log(decrypted)
         record.decrypted = JSON.stringify(decrypted);
         dispatch(assignRecord(record));
       } catch (e) {
